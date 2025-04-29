@@ -1,2 +1,2 @@
 .DS_Store
-src/github_trending/__pycache__
+*/__pycache__
