@@ -1,0 +1,18 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "src/github_trending/api.py",
+        "use": "@vercel/python"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "/src/github_trending/api.py"
+      }
+    ],
+    "env": {
+      "APP_MODULE": "src.github_trending.api:app"
+    }
+  }
