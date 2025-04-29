@@ -10,7 +10,7 @@
     "routes": [
       {
         "src": "/(.*)",
-        "dest": "/src/github_trending/api.py"
+        "dest": "src/github_trending/api.py"
       }
     ],
     "env": {

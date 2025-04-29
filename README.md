@@ -87,12 +87,40 @@ The API returns data in the following format:
 }
 ```
 
+## Deployment
+
+### Deploying to Vercel
+
+1. Install the Vercel CLI:
+```bash
+npm install -g vercel
+```
+
+2. Login to Vercel:
+```bash
+vercel login
+```
+
+3. Deploy the application:
+```bash
+vercel
+```
+
+4. For production deployment:
+```bash
+vercel --prod
+```
+
+The application will be deployed to Vercel and you'll receive a URL where your API is accessible.
+
 ## Dependencies
 
 - Python >= 3.13
 - requests >= 2.32.3
 - beautifulsoup4 >= 4.13.4
 - fastapi >= 0.109.0
+- uvicorn >= 0.27.0
+- mangum >= 0.17.0
 
 ## License
 
