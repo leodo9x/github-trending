@@ -15,7 +15,7 @@ A Python package that allows you to fetch trending repositories from GitHub. Thi
 
 ## Installation
 
-This project uses Poetry for dependency management. Make sure you have Python 3.13 or higher installed.
+This project uses Python 3.13 or higher. Make sure you have Python installed.
 
 1. Clone the repository:
 ```bash
@@ -23,9 +23,27 @@ git clone https://github.com/leodo9x/github-trending.git
 cd github-trending
 ```
 
-2. Install dependencies using Poetry:
+2. Create and activate a virtual environment:
 ```bash
-poetry install
+python -m venv venv
+source venv/bin/activate  # On Windows, use: venv\Scripts\activate
+```
+
+3. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+## Project Structure
+
+```
+github-trending/
+├── app/
+│   ├── main.py           # FastAPI application and routes
+│   └── github_trending.py # Core functionality for fetching trending repos
+├── tests/                # Test files
+├── requirements.txt      # Python dependencies
+└── vercel.json          # Vercel deployment configuration
 ```
 
 ## Usage
@@ -35,7 +53,7 @@ poetry install
 Here's a simple example of how to use the package:
 
 ```python
-from github_trending import init
+from app.github_trending import init
 
 # Get today's trending repositories
 trending_repos = init()
@@ -58,7 +76,7 @@ for repo in trending_repos:
 
 ### API Endpoint
 
-The package also provides a FastAPI endpoint to fetch trending repositories:
+The package provides a FastAPI endpoint to fetch trending repositories:
 
 ```bash
 # Get today's trending repositories
@@ -85,6 +103,14 @@ The API returns data in the following format:
     }
   ]
 }
+```
+
+## Development
+
+To run the development server:
+
+```bash
+uvicorn app.main:app --reload
 ```
 
 ## Deployment
