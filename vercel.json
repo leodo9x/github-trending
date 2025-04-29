@@ -1,19 +1,16 @@
 {
-    "version": 2,
     "regions": ["sin1"],
+
     "builds": [
       {
-        "src": "src/github_trending/api.py",
+        "src": "main.py",
         "use": "@vercel/python"
       }
     ],
     "routes": [
       {
         "src": "/(.*)",
-        "dest": "src/github_trending/api.py"
+        "dest": "main.py"
       }
-    ],
-    "env": {
-      "APP_MODULE": "src.github_trending.api:app"
-    }
-  }
+    ]
+}
