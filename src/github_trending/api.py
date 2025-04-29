@@ -1,8 +1,10 @@
-from github_trending import init as call_github_trending
+from fastapi import FastAPI
+from .github_trending import init as github_trending_init
 
-def __init__():
-    trending = call_github_trending()
+app = FastAPI()
 
-    print(trending)
+@app.get("/api/github-trending")
+async def get_github_trending(since: str | None = None):
+  github_trending = github_trending_init(since)
 
-__init__()
+  return {"code": 200, "data": github_trending }
