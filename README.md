@@ -30,6 +30,8 @@ poetry install
 
 ## Usage
 
+### Python Package
+
 Here's a simple example of how to use the package:
 
 ```python
@@ -54,11 +56,43 @@ for repo in trending_repos:
     print("---")
 ```
 
+### API Endpoint
+
+The package also provides a FastAPI endpoint to fetch trending repositories:
+
+```bash
+# Get today's trending repositories
+curl http://localhost:8000/api/github-trending
+
+# Get weekly trending repositories
+curl http://localhost:8000/api/github-trending?since=weekly
+
+# Get monthly trending repositories
+curl http://localhost:8000/api/github-trending?since=monthly
+```
+
+The API returns data in the following format:
+```json
+{
+  "code": 200,
+  "data": [
+    {
+      "name": "repository-name",
+      "link": "github.com/username/repository",
+      "description": "Repository description",
+      "language": "Programming language",
+      "star": "Number of stars"
+    }
+  ]
+}
+```
+
 ## Dependencies
 
 - Python >= 3.13
 - requests >= 2.32.3
 - beautifulsoup4 >= 4.13.4
+- fastapi >= 0.109.0
 
 ## License
 
