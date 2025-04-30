@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 from ..config.settings import settings
 from ..models.github_trending import GitHubTrendingItem
+from .cache_service import cache
 
 class GitHubService:
     def __init__(self):
@@ -15,6 +16,9 @@ class GitHubService:
         if date:
             url = f"{url}?since={date}"
         return url
+
+    def _get_cache_key(self, date: Optional[str] = None) -> str:
+        return f"github_trending:{date or 'daily'}"
 
     def _parse_trending_item(self, article) -> GitHubTrendingItem:
         title = article.h2
@@ -40,15 +44,27 @@ class GitHubService:
         )
 
     def get_trending(self, date: Optional[str] = None) -> List[GitHubTrendingItem]:
-        url = self._get_url(date)
+        cache_key = self._get_cache_key(date)
 
+        # Try to get from cache first
+        cached_data = cache.get(cache_key)
+        if cached_data:
+            return cached_data
+
+        # If not in cache, fetch from GitHub
+        url = self._get_url(date)
         for attempt in range(self.max_retries):
             try:
                 response = requests.get(url, timeout=self.timeout)
                 response.raise_for_status()
 
                 soup = BeautifulSoup(response.content, 'html.parser')
-                return [self._parse_trending_item(article) for article in soup.find_all('article')]
+                trending_items = [self._parse_trending_item(article) for article in soup.find_all('article')]
+
+                # Cache the results
+                cache.set(cache_key, trending_items)
+
+                return trending_items
             except requests.RequestException as e:
                 if attempt == self.max_retries - 1:
                     raise Exception(f"Failed to fetch GitHub trending data after {self.max_retries} attempts: {str(e)}")
