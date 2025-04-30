@@ -12,6 +12,8 @@ A Python package that allows you to fetch trending repositories from GitHub. Thi
   - Description
   - Programming language
   - Star count
+- RESTful API endpoint for easy integration
+- Environment variable configuration support
 
 ## Installation
 
@@ -39,11 +41,27 @@ pip install -r requirements.txt
 ```
 github-trending/
 ├── app/
-│   ├── main.py           # FastAPI application and routes
-│   └── github_trending.py # Core functionality for fetching trending repos
-├── tests/                # Test files
-├── requirements.txt      # Python dependencies
-└── vercel.json          # Vercel deployment configuration
+│   ├── main.py              # FastAPI application and routes
+│   ├── config/
+│   │   └── settings.py      # Application configuration and environment variables
+│   ├── models/
+│   │   └── github_trending.py # Data models and schemas
+│   └── services/
+│       ├── github_service.py # GitHub trending data fetching service
+│       └── cache_service.py  # Caching service for API responses
+├── tests/                   # Test files
+├── requirements.txt         # Python dependencies
+├── .env                    # Environment variables (create this file)
+└── vercel.json             # Vercel deployment configuration
+```
+
+## Configuration
+
+Create a `.env` file in the root directory with the following variables:
+
+```env
+APP_ENV=development
+PORT=8000
 ```
 
 ## Usage
@@ -113,6 +131,14 @@ To run the development server:
 uvicorn app.main:app --reload
 ```
 
+## Testing
+
+Run the test suite:
+
+```bash
+pytest
+```
+
 ## Deployment
 
 ### Deploying to Vercel
@@ -142,11 +168,16 @@ The application will be deployed to Vercel and you'll receive a URL where your A
 ## Dependencies
 
 - Python >= 3.13
-- requests >= 2.32.3
-- beautifulsoup4 >= 4.13.4
-- fastapi >= 0.109.0
-- uvicorn >= 0.27.0
-- mangum >= 0.17.0
+- fastapi == 0.104.0
+- uvicorn >= 0.15.0
+- requests >= 2.26.0
+- beautifulsoup4 >= 4.9.3
+- pydantic >= 2.0.0
+- pydantic-settings >= 2.0.0
+- python-dotenv >= 0.19.0
+- pytest >= 7.0.0
+- pytest-asyncio >= 0.18.0
+- httpx >= 0.24.0
 
 ## License
 
